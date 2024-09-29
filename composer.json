@@ -1,0 +1,33 @@
+{
+    "name": "thevenrex/json-to-class",
+    "description": "Json Class initializer",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^11.3"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Thevenrex\\JsonToClass\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Thevenrex\\JsonToClass\\Tests\\": "tests/"
+        },
+        "files": [
+            "tests/helpers.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "ThevenRexOff",
+            "email": "thevenrexoficial@outlook.es"
+        }
+    ],
+    "minimum-stability": "stable",
+    "scripts": {
+        "test": "phpunit --testdox tests/ --colors=always"
+    },
+    "require": {}
+}
