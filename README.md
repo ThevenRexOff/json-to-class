@@ -1,4 +1,4 @@
-# JSON Decoder
+# JSON Searializer
 Json Decoder into class
 
 ## First step
