@@ -39,7 +39,7 @@ $decoder->decode($user);
 
 The attributes is changed with json Datas
 ```php
-var_dump($u);
+var_dump($user);
 ```
 
 example output:
