@@ -1,31 +1,32 @@
-<?php 
+<?php
+
 
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Thevenrex\JsonToClass\JsonException;
-use Thevenrex\JsonToClass\JsonToClassDecoder;
+use Thevenrex\JsonToClass\{JsonException, JsonToClassDecoder};
 
 final class JsonToClassDecoderTest extends TestCase
 {
-
-    public function testSimpleTypes() {
+    public function testSimpleTypes()
+    {
 
         $rawJson = '{
             "id": 1,
             "name": "John Doe",
             "username": "johndoe"
         }';
-        
+
         $decoder = new JsonToClassDecoder($rawJson);
-        $user = new SimpleUser;
+        $user = new SimpleUser();
         $decoder->decode($user);
         $this->assertEquals(1, $user->id);
         $this->assertEquals('John Doe', $user->name);
         $this->assertEquals('johndoe', $user->username);
     }
 
-    public function testArrayUsingJson() {
+    public function testArrayUsingJson()
+    {
 
         $rawJson = '{
             "id": 1,
@@ -38,11 +39,11 @@ final class JsonToClassDecoderTest extends TestCase
                 "zip": "10001"
             }
         }';
-        
+
         $decoder = new JsonToClassDecoder($rawJson);
-        $user = new UserWithArray;
+        $user = new UserWithArray();
         $decoder->decode($user);
-        
+
         $this->assertEquals(1, $user->id);
         $this->assertEquals('John Doe', $user->name);
         $this->assertEquals('johndoe', $user->username);
@@ -56,10 +57,10 @@ final class JsonToClassDecoderTest extends TestCase
     {
         $json = '{"id": 1, "name": "John Doe", "username": "johndoe"}';
         $decoder = new JsonToClassDecoder($json);
-        $user = new SimpleUser;
-        
+        $user = new SimpleUser();
+
         $decoder->decode($user);
-        
+
         $this->assertEquals(1, $user->id);
         $this->assertEquals('John Doe', $user->name);
         $this->assertEquals('johndoe', $user->username);
@@ -80,7 +81,7 @@ final class JsonToClassDecoderTest extends TestCase
         }';
 
         $decoder = new JsonToClassDecoder($json);
-        $user = new UserWithArray;
+        $user = new UserWithArray();
         $decoder->decode($user);
         $this->assertEquals('John Doe', $user->name);
 
@@ -99,7 +100,7 @@ final class JsonToClassDecoderTest extends TestCase
             }
         }';
         $decoder = new JsonToClassDecoder($json);
-        $user = new UserWithObject;
+        $user = new UserWithObject();
         $decoder->decode($user);
         $this->assertEquals('John Doe', $user->name);
     }
@@ -108,7 +109,7 @@ final class JsonToClassDecoderTest extends TestCase
     {
         $json = '{"name": 1, "age": 32, "city": "New York"}';
         $decoder = new JsonToClassDecoder($json);
-        $user = new SimpleUser;
+        $user = new SimpleUser();
 
         $this->expectException(JsonException::class);
         $decoder->decode($user);
@@ -118,7 +119,7 @@ final class JsonToClassDecoderTest extends TestCase
     {
         $json = '{"name": "John Doe", "age": 32, "city": "New York", "address": {"street": "123 Main St", "city": 1, "state": "NY", "zip": "10001"}}';
         $decoder = new JsonToClassDecoder($json);
-        $user = new UserWithArray;
+        $user = new UserWithArray();
 
         $this->expectException(JsonException::class);
         $decoder->decode($user);
