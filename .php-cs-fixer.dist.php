@@ -5,6 +5,12 @@ declare(strict_types=1);
 use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 use PhpCsFixer\{Config, Finder};
 
+$finder = (new Finder())
+    ->ignoreDotFiles(true)
+    ->ignoreVCSIgnored(true)
+    ->exclude(['tests/'])
+    ->in(__DIR__);
+
 return (new Config())
     ->setParallelConfig(ParallelConfigFactory::detect())
     ->setRules([
@@ -24,11 +30,4 @@ return (new Config())
             'import_functions' => true,
         ],
     ])
-    ->setFinder(
-        (new Finder())
-            ->ignoreDotFiles(false)
-            ->ignoreVCSIgnored(true)
-            ->exclude(['dev-tools/phpstan', 'tests/Fixtures'])
-            ->in(__DIR__)
-    )
-;
+    ->setFinder($finder);
