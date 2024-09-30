@@ -3,13 +3,17 @@
 namespace Thevenrex\JsonToClass;
 
 use Exception;
+
+use function gettype;
+
 use ReflectionClass;
+use ReflectionNamedType;
 use ReflectionProperty;
-use Thevenrex\JsonToClass\JsonException;
+
+use function sprintf;
 
 class JsonToClassDecoder
 {
-
     public function __construct(
         private $json,
         protected ?ReflectionProperty $property = null
@@ -51,7 +55,7 @@ class JsonToClassDecoder
     private function setObjectValue(object $object, mixed $value): void
     {
         $subClass = $this->property->getType()->getName();
-        $subObject = new $subClass;
+        $subObject = new $subClass();
         $new = new self(json_encode($value));
         $new->decode($subObject);
         $this->property->setValue($object, $subObject);
@@ -68,14 +72,14 @@ class JsonToClassDecoder
     {
         $type = $this->property->getType();
 
-        if ($type instanceof \ReflectionNamedType) {
+        if ($type instanceof ReflectionNamedType) {
             $type = $type->getName();
-	    }
-        
+        }
+
         $valueType = $this->getType($value);
-        
+
         if ($valueType != $type) {
-            throw new JsonException(\sprintf('Invalid type for property %s, expected %s, given %s', $this->property->getName(), $type, $valueType));
+            throw new JsonException(sprintf('Invalid type for property %s, expected %s, given %s', $this->property->getName(), $type, $valueType));
         }
 
         $this->property->setValue($object, $value);
@@ -86,9 +90,10 @@ class JsonToClassDecoder
      * @param mixed $value The value to get the type of.
      * @return string The type of the value.
      */
-    public function getType($value): string {
+    public function getType($value): string
+    {
 
-        $type = \gettype($value);
+        $type = gettype($value);
 
         return match ($type) {
             'integer' => 'int',

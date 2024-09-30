@@ -5,4 +5,6 @@ namespace Thevenrex\JsonToClass;
 use Exception;
 use Throwable;
 
-class JsonException extends Exception implements Throwable {}
+class JsonException extends Exception implements Throwable
+{
+}
